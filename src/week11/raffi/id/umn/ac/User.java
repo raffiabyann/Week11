@@ -44,14 +44,11 @@ public class User {
         this.password = hash(password);
     }
 
-    public boolean login(String username, String password)
-            throws ExcessiveFailedLoginException {
+    public boolean login(String username, String password) throws ExcessiveFailedLoginException {
 
         if (this.userName.equals(username)) {
 
-            if (LoginAttempts == maxLoginAttempts) {
-                throw new ExcessiveFailedLoginException("Anda telah mencapai batas login");
-            } else if (LoginAttempts > maxLoginAttempts) {
+            if (LoginAttempts >= maxLoginAttempts) {
                 throw new ExcessiveFailedLoginException("Anda telah mencapai jumlah batas login");
             }
 
@@ -59,15 +56,14 @@ public class User {
                 LoginAttempts = 0;
                 return true;
             } else {
-                System.out.println("Password yang anda masukkan salah");
-                System.out.print("Kesempatan Anda Login " + (maxLoginAttempts - LoginAttempts));
-                System.out.println(" Kali Lagi");
                 LoginAttempts++;
+                return false;
             }
         }
 
         return false;
     }
+
 
     public String greeting() {
         String greet = "Selamat Datang!";
